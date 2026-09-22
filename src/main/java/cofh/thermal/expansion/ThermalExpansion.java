@@ -27,7 +27,7 @@ public class ThermalExpansion {
 
         setFeatureFlags();
 
-        CONFIG_MANAGER.register(modEventBus)
+        CONFIG_MANAGER.register(modContainer, modEventBus)
                 .addServerConfig(new ThermalDynamoConfig())
                 .addServerConfig(new ThermalMachineConfig());
 
