@@ -1,5 +1,6 @@
 package cofh.thermal.expansion.common.block.entity.machine;
 
+import cofh.core.util.ProxyUtils;
 import cofh.core.util.helpers.FluidHelper;
 import cofh.core.util.helpers.InventoryHelper;
 import cofh.lib.common.fluid.FluidStorageCoFH;
@@ -179,7 +180,7 @@ public class MachineCrafterBlockEntity extends MachineBlockEntity {
         }
         FluidStack prevFluid = renderFluid;
         if (!fluidInputCounts.isEmpty() && fluidInputCounts.get(0) > 0) {
-            renderFluid = new FluidStack(inputTank.getFluidStack(), BUCKET_VOLUME);
+            renderFluid = inputTank.getFluidStack().copyWithAmount(BUCKET_VOLUME);
         } else {
             renderFluid = FluidStack.EMPTY;
         }
@@ -242,7 +243,11 @@ public class MachineCrafterBlockEntity extends MachineBlockEntity {
         super.getConfigPacket(buffer);
 
         for (int i = SLOT_CRAFTING_START; i < SLOT_CRAFTING_START + 9; ++i) {
-            buffer.writeItem(inventory.getStackInSlot(i));
+            // FriendlyByteBuf#writeItem/readItem are gone - ItemStack's only stream codec needs a
+            // RegistryFriendlyByteBuf, and the config packet's buffer is a plain scratch
+            // FriendlyByteBuf (TileConfigPacket#sendToServer). save/parseOptional take the registry
+            // provider directly, so the stack round-trips as NBT with its components intact.
+            buffer.writeNbt(inventory.getStackInSlot(i).saveOptional(ProxyUtils.registryAccess()));
         }
         return buffer;
     }
@@ -253,7 +258,7 @@ public class MachineCrafterBlockEntity extends MachineBlockEntity {
         super.handleConfigPacket(buffer);
 
         for (int i = SLOT_CRAFTING_START; i < SLOT_CRAFTING_START + 9; ++i) {
-            inventory.set(i, buffer.readItem());
+            inventory.set(i, ItemStack.parseOptional(ProxyUtils.registryAccess(), buffer.readNbt()));
         }
         setRecipe();
         markChunkUnsaved();
