@@ -24,6 +24,6 @@
     "IPI"
   ],
   "result": {
-    "item": "thermal:machine_crystallizer"
+    "id": "thermal:machine_crystallizer"
   }
 }

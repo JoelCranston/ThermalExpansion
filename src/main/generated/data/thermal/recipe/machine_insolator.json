@@ -24,6 +24,6 @@
     "IPI"
   ],
   "result": {
-    "item": "thermal:machine_insolator"
+    "id": "thermal:machine_insolator"
   }
 }

@@ -18,6 +18,6 @@
     "I C"
   ],
   "result": {
-    "item": "thermal:press_unpacking_die"
+    "id": "thermal:press_unpacking_die"
   }
 }

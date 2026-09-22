@@ -24,6 +24,6 @@
     "IPI"
   ],
   "result": {
-    "item": "thermal:machine_brewer"
+    "id": "thermal:machine_brewer"
   }
 }

@@ -24,6 +24,6 @@
     "IPI"
   ],
   "result": {
-    "item": "thermal:machine_refinery"
+    "id": "thermal:machine_refinery"
   }
 }

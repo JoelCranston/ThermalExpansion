@@ -24,6 +24,6 @@
     "IPI"
   ],
   "result": {
-    "item": "thermal:machine_crucible"
+    "id": "thermal:machine_crucible"
   }
 }

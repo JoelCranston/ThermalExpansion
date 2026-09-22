@@ -24,6 +24,6 @@
     "YXY"
   ],
   "result": {
-    "item": "thermal:dynamo_stirling"
+    "id": "thermal:dynamo_stirling"
   }
 }

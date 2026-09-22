@@ -24,6 +24,6 @@
     "IPI"
   ],
   "result": {
-    "item": "thermal:machine_crafter"
+    "id": "thermal:machine_crafter"
   }
 }

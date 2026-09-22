@@ -24,6 +24,6 @@
     "IPI"
   ],
   "result": {
-    "item": "thermal:machine_smelter"
+    "id": "thermal:machine_smelter"
   }
 }

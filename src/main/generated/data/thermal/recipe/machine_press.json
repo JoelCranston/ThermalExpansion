@@ -24,6 +24,6 @@
     "IPI"
   ],
   "result": {
-    "item": "thermal:machine_press"
+    "id": "thermal:machine_press"
   }
 }

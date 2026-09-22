@@ -15,6 +15,6 @@
     "i i"
   ],
   "result": {
-    "item": "thermal:slot_seal"
+    "id": "thermal:slot_seal"
   }
 }

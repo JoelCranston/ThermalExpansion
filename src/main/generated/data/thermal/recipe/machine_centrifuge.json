@@ -24,6 +24,6 @@
     "IPI"
   ],
   "result": {
-    "item": "thermal:machine_centrifuge"
+    "id": "thermal:machine_centrifuge"
   }
 }
