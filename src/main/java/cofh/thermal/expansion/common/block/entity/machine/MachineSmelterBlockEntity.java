@@ -2,7 +2,6 @@ package cofh.thermal.expansion.common.block.entity.machine;
 
 import cofh.lib.client.sounds.ConditionalSoundInstance;
 import cofh.lib.common.inventory.ItemStorageCoFH;
-import cofh.lib.util.helpers.MathHelper;
 import cofh.thermal.core.common.config.ThermalCoreConfig;
 import cofh.thermal.core.common.item.SlotSealItem;
 import cofh.thermal.core.util.managers.machine.SmelterRecipeManager;
@@ -11,6 +10,8 @@ import cofh.thermal.lib.common.block.entity.MachineBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -89,8 +90,12 @@ public class MachineSmelterBlockEntity extends MachineBlockEntity {
         int decrement = itemInputCounts.size() > 3 ? itemInputCounts.get(3) : 0;
         if (decrement > 0) {
             if (catalystSlot.getItemStack().isDamageableItem()) {
-                if (catalystSlot.getItemStack().hurt(decrement, MathHelper.RANDOM, null)) {
-                    catalystSlot.modify(-1);
+                // ItemStack#hurt(int, RandomSource, ServerPlayer) is gone; damage goes through
+                // hurtAndBreak, which needs the ServerLevel and reports the break by callback
+                // instead of a return value. Unbreaking is applied inside it now, so the old
+                // RandomSource argument has no successor.
+                if (level instanceof ServerLevel serverLevel) {
+                    catalystSlot.getItemStack().hurtAndBreak(decrement, serverLevel, (ServerPlayer) null, item -> catalystSlot.modify(-1));
                 }
             } else {
                 catalystSlot.modify(-decrement);
