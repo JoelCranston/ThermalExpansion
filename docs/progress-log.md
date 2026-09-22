@@ -141,3 +141,23 @@ broke two recipes and was caught by the boot.
 
 `runData`; and the client pass (machine GUIs, JEI recipe pages). One pre-existing content gap is
 in the Inbox. Shapes: `../CoFHCore/docs/api-notes-1.21.1.md`.
+
+---
+
+## runData on 1.21.1 (2026-09-22)
+
+`./gradlew runData` had never worked on this branch. `build.gradle` declared `clientData()`,
+which ModDevGradle only offers from 1.21.4, so `prepareDataRun` failed. 1.21.1's run type is
+`data()`.
+
+It also needed `'--existing-mod', 'thermal'`: TE's item models reference ThermalCore's
+textures (`thermal:item/slot_seal` first), and `ModelBuilder#texture` refuses a texture it can't
+find in a known pack.
+
+Regenerating fixed 9 recipe-unlock advancements on the 1.20 `{"tag": "c:..."}` item predicate,
+which 1.21 ignores, so each matched any item. Item models came out unchanged, and the rest of the
+diff is cosmetic. Commit `ab68ab2`.
+
+The same pass found a client crash in CoFHCore (`LevelRendererMixin`, stale `renderLevel`
+signature), since the data run is a client-dist launch. See `../CoFHCore/docs/progress-log.md`,
+"Phase A follow-up — runData".
