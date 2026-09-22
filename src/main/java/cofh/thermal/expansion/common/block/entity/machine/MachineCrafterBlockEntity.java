@@ -20,6 +20,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ResultContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -101,10 +102,13 @@ public class MachineCrafterBlockEntity extends MachineBlockEntity {
             craftMatrix.setItem(i, inventory.get(SLOT_CRAFTING_START + i));
         }
         RecipeHolder<CraftingRecipe> craftRecipe;
-        Optional<RecipeHolder<CraftingRecipe>> possibleRecipe = level.getRecipeManager().getRecipeFor(RecipeType.CRAFTING, craftMatrix, level);
+        // Recipes take a RecipeInput rather than a Container since 1.21; CraftingContainer
+        // provides the conversion.
+        CraftingInput craftingInput = craftMatrix.asCraftInput();
+        Optional<RecipeHolder<CraftingRecipe>> possibleRecipe = level.getRecipeManager().getRecipeFor(RecipeType.CRAFTING, craftingInput, level);
         if (possibleRecipe.isPresent()) {
             craftRecipe = possibleRecipe.get();
-            craftResult.setItem(0, craftRecipe.value().assemble(craftMatrix, level.registryAccess()));
+            craftResult.setItem(0, craftRecipe.value().assemble(craftingInput, level.registryAccess()));
         } else {
             craftRecipe = null;
             craftResult.setItem(0, ItemStack.EMPTY);
