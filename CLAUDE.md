@@ -39,14 +39,19 @@ before writing code against it.
 
 ## Current state
 
-Branch **`1.21.1`**. The build files are back at their committed 1.20.4 values (the stray
-uncommitted 1.20.6 bump was discarded on 2026-09-22 — it was never a target); Phase 0.3/0.4
-(ModDevGradle 2.0.147, `neoforge.mods.toml`) and A.0 (1.21.1 values) replace them wholesale,
-per `../CoFHCore/docs/port-plan.md` §4.3–§4.4 and §5 A.0.
+Branch **`1.21.1`**. Phase 0.3/0.4 and A.0 are **done** (2026-09-22): ModDevGradle 2.0.147
+replaces NeoGradle userdev, `META-INF/neoforge.mods.toml` replaces `mods.toml`, and
+`gradle.properties` is at the Phase A values (java 21 / MC 1.21.1 / NeoForge 21.1.251 /
+JEI 19.57.0.446). **Gradle configures cleanly**; nothing compiles yet, and will not until
+CoFHCore and ThermalCore do.
 
-The family-wide `ResourceLocation` sweep (Phase A.1 category 2) has already been applied and
-committed here, ahead of this repo's own Phase A — it was cheaper to run once for all four.
+Two family-wide sweeps have been applied here ahead of this repo's own Phase A, because each
+was cheaper to run once for all four repos: the `ResourceLocation` constructor sweep (A.1
+category 2) and the resources sweep (A.1 item 15 — singular data folders, `forge:` → `c:`
+tags, `neoforge:conditions`). See `docs/TODO.md`'s Inbox for the `c:` tags that are
+referenced but defined nowhere.
 
-**Blocked on CoFHCore**: this repo's own Phase A starts only once `../CoFHCore` builds clean
-on 1.21.1 and boots headless (its `docs/TODO.md` tracks that). Then: apply Phase 0.3/0.4
-here, bump to 1.21.1, and work through the SPLIGAN diff (port-plan.md §5 A.2/A.3).
+**Blocked on CoFHCore**: this repo's own Java porting starts only once `../CoFHCore` builds
+clean on 1.21.1 and boots headless (its `docs/TODO.md` tracks that), then ThermalCore. After
+that: `diff -ru src ../ThermalExpansionForNeoForge/src` and work through the hunks
+(port-plan.md §5 A.2/A.3).
