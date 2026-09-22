@@ -25,6 +25,14 @@ compiles yet.
 
 ## Inbox
 
+- `data/thermal/recipe/machines/insolator/insolator_rubberwood_sapling.json` references
+  `thermal:rubberwood_sapling` / `thermal:rubberwood_log`, which **ThermalCore does not
+  register** - the only trace of rubberwood there is `FLAG_RESOURCE_RUBBERWOOD` and a
+  guidebook page. Pre-existing content gap, not a port regression: on 1.20.4 the old parser
+  produced an empty recipe silently, while 1.21's codec path logs a parse error every boot.
+  Either add the rubberwood tree to ThermalCore or delete the recipe - a content decision.
+
+
 - **`c:` tags referenced here that NeoForge 21.1.251 does not define.** Every distinct `c:`
   tag produced by the sweep was checked against `net/neoforged/neoforge/common/Tags.java` in
   `neoforge-21.1.251-sources.jar`. The six whose *name* changed (`c:glass` → `c:glass_blocks`
