@@ -12,7 +12,7 @@
       "item": "thermal:rf_coil"
     },
     "X": {
-      "tag": "c:glass"
+      "tag": "c:glass_blocks"
     },
     "Y": {
       "tag": "c:ingots/copper"

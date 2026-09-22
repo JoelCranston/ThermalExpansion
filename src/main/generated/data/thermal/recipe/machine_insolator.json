@@ -15,7 +15,7 @@
       "item": "minecraft:dirt"
     },
     "Y": {
-      "tag": "c:glass"
+      "tag": "c:glass_blocks"
     }
   },
   "pattern": [

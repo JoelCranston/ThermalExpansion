@@ -15,7 +15,7 @@
       "item": "minecraft:brewing_stand"
     },
     "Y": {
-      "tag": "c:glass"
+      "tag": "c:glass_blocks"
     }
   },
   "pattern": [
