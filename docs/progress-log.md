@@ -63,3 +63,39 @@ and the matching entry in `../CoFHCore/docs/progress-log.md` for what re-verific
 Branch `1.21.1` created today. `../ThermalExpansionForNeoForge` (SPLIGAN's 1.21.1 port of this repo) is the Phase A
 worklist; `../Pyronetics` is the 26.1.2 reference. The uncommitted 1.20.6 build bump is left
 uncommitted on purpose.
+
+## Phase A.3 source sweeps (2026-09-22)
+
+Eight commits, one per root cause, all source-level: ThermalCore does not compile yet, so
+`./gradlew compileJava` still stops in `:ThermalCore:compileJava` and this repo has never
+produced an error count of its own. Every API shape below was confirmed against
+`neoforge-21.1.251-sources.jar` / the resolved JEI 19.57.0.446 jars, not from the fork.
+
+- `@Mod.EventBusSubscriber` → top-level `@EventBusSubscriber`; `ConfigManager#register` now
+  takes the `ModContainer` the mod constructor is handed.
+- The potion JEI plugin's raw-NBT round trip → `DataComponents.POTION_CONTENTS` via CoFHCore's
+  `PotionFluid.getItemFromPotionFluid`/`getPotionFluidFromItem`; potions are `Holder<Potion>`
+  and `Potions.EMPTY` is gone.
+- `new FluidStack(FluidStack, int)` → `copyWithAmount` (12 sites; the `(Fluid, int)` ctor stays).
+- `FriendlyByteBuf#writeItem/readItem` → `saveOptional`/`parseOptional` with
+  `ProxyUtils.registryAccess()`. **Not** `ItemStack.STREAM_CODEC` with a
+  `(RegistryFriendlyByteBuf)` cast, which is what SPLIGAN's fork does: CoFHCore's
+  `TileConfigPacket#sendToServer` builds the buffer from `Unpooled.buffer()`, so that cast
+  throws. CoFHCore hit the same wall in `FluidFilterMenu#getGuiPacket`.
+- Crafting recipe lookups take a `RecipeInput`: `CraftingContainer#asCraftInput()` (vanilla
+  already provides it - no hand-rolled `CraftingInput.of(3, 3, …)` helper needed).
+- `ItemStack#hurt(int, RandomSource, ServerPlayer)` → `hurtAndBreak(int, ServerLevel,
+  ServerPlayer, Consumer<Item>)`, guarded on `level instanceof ServerLevel` rather than cast.
+- Datagen providers take the registries (loot, block loot, recipes); `Tags.Items.STONE/SAND/GLASS`
+  → `STONES/SANDS/GLASS_BLOCKS`, matching the `c:` names the resources sweep already emitted.
+  The fork instead downgraded these to concrete `Blocks.STONE/SAND/GLASS`, losing the tag.
+- `accesstransformer.cfg` replaced with CoFHCore's byte-identical 1.21.1 copy (ours was still
+  SRG-named and listed deleted members, which `validateAccessTransformers` rejects).
+
+Nothing else was needed. All 56 `net.minecraft` and 20 `net.neoforged` imports in this repo
+resolve against 21.1.251; the 27 JEI files' entire API surface (`IRecipeCategory`,
+`IRecipeLayoutBuilder`, `IRecipeSlotBuilder`, `IModPlugin`, the registration interfaces,
+`NeoForgeTypes.FLUID_STACK`, `IRecipeManagerPlugin`) exists unchanged in 19.57.0.446 - the
+only JEI file that needed work was the potion plugin, for a vanilla reason. There are no
+mixins, no Curios integration, no vertex-API use and no `BlockEntity` save/load overrides in
+this repo, so those categories are no-ops here.
