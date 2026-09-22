@@ -21,7 +21,7 @@ Contains the "factory" of the Thermal Series - Dynamos and Machines to both prod
 [[dependencies.thermal_expansion]]
 modId = "minecraft"
 type = "required"
-versionRange = "1.20.4"
+versionRange = "[${mc_version}]"
 ordering = "AFTER"
 side = "BOTH"
 
@@ -34,14 +34,14 @@ side = "BOTH"
 
 [[dependencies.thermal_expansion]]
 modId = "cofh_core"
-required = true
+type = "required"
 versionRange = "${cofh_core_version_range}"
 ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.thermal_expansion]]
 modId = "thermal"
-required = true
+type = "required"
 versionRange = "${thermal_core_version_range}"
 ordering = "AFTER"
 side = "BOTH"
