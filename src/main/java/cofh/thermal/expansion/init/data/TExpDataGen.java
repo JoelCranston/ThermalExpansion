@@ -24,8 +24,8 @@ public class TExpDataGen {
         gen.addProvider(event.includeServer(), blockTags);
         gen.addProvider(event.includeServer(), new TExpTagsProvider.Item(output, event.getLookupProvider(), blockTags.contentsGetter(), exFileHelper));
 
-        gen.addProvider(event.includeServer(), new TExpLootTableProvider(output));
-        gen.addProvider(event.includeServer(), new TExpRecipeProvider(output));
+        gen.addProvider(event.includeServer(), new TExpLootTableProvider(output, event.getLookupProvider()));
+        gen.addProvider(event.includeServer(), new TExpRecipeProvider(output, event.getLookupProvider()));
 
         gen.addProvider(event.includeClient(), new TExpBlockStateProvider(output, exFileHelper));
         gen.addProvider(event.includeClient(), new TExpItemModelProvider(output, exFileHelper));
