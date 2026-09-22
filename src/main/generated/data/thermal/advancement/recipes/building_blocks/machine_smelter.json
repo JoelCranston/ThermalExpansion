@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "thermal:machine_frame"
-            ]
+            "items": "thermal:machine_frame"
           }
         ]
       },
