@@ -1,0 +1,13 @@
+{
+  "type": "thermal:pulverizer",
+  "ingredient": {
+    "tag": "c:ender_pearls"
+  },
+  "result": [
+    {
+      "item": "thermal:ender_pearl_dust",
+      "count": 1
+    }
+  ],
+  "experience": 0.2
+}

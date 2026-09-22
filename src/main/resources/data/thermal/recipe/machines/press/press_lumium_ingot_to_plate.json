@@ -1,0 +1,11 @@
+{
+  "type": "thermal:press",
+  "ingredient": {
+    "tag": "c:ingots/lumium"
+  },
+  "result": [
+    {
+      "item": "thermal:lumium_plate"
+    }
+  ]
+}

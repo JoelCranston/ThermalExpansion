@@ -1,0 +1,17 @@
+{
+  "type": "thermal:smelter",
+  "ingredient": {
+    "tag": "c:gravel"
+  },
+  "result": [
+    {
+      "item": "minecraft:flint",
+      "count": 1
+    },
+    {
+      "item": "thermal:slag",
+      "count": 1
+    }
+  ],
+  "experience": 0.5
+}

@@ -1,0 +1,12 @@
+{
+  "type": "thermal:pulverizer",
+  "ingredient": {
+    "tag": "c:gems/cinnabar"
+  },
+  "result": [
+    {
+      "item": "thermal:cinnabar_dust",
+      "count": 1
+    }
+  ]
+}

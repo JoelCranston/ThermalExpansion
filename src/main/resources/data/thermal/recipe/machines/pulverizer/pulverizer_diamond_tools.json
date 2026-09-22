@@ -1,0 +1,23 @@
+{
+  "type": "thermal:pulverizer_recycle",
+  "ingredient": {
+    "tag": "c:tools/diamond"
+  },
+  "result": [
+    {
+      "item": "minecraft:diamond",
+      "count": 1
+    },
+    {
+      "item": "thermal:sawdust",
+      "count": 1
+    }
+  ],
+  "experience": 0.5,
+  "neoforge:conditions": [
+    {
+      "tag": "c:tools/diamond",
+      "type": "cofh_core:tag_exists"
+    }
+  ]
+}

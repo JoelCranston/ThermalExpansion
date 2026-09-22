@@ -1,0 +1,12 @@
+{
+  "type": "thermal:pulverizer",
+  "ingredient": {
+    "tag": "c:gems/lapis"
+  },
+  "result": [
+    {
+      "item": "thermal:lapis_dust",
+      "count": 1
+    }
+  ]
+}

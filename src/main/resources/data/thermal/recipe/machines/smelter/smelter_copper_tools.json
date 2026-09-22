@@ -1,0 +1,19 @@
+{
+  "type": "thermal:smelter_recycle",
+  "ingredient": {
+    "tag": "c:tools/copper"
+  },
+  "result": [
+    {
+      "item": "minecraft:copper_ingot",
+      "count": 1
+    }
+  ],
+  "experience": 0.2,
+  "neoforge:conditions": [
+    {
+      "tag": "c:tools/copper",
+      "type": "cofh_core:tag_exists"
+    }
+  ]
+}

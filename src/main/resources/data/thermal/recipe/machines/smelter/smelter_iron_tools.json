@@ -1,0 +1,19 @@
+{
+  "type": "thermal:smelter_recycle",
+  "ingredient": {
+    "tag": "c:tools/iron"
+  },
+  "result": [
+    {
+      "item": "minecraft:iron_ingot",
+      "count": 1
+    }
+  ],
+  "experience": 0.3,
+  "neoforge:conditions": [
+    {
+      "tag": "c:tools/iron",
+      "type": "cofh_core:tag_exists"
+    }
+  ]
+}

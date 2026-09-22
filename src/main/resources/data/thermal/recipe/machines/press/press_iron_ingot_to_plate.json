@@ -1,0 +1,11 @@
+{
+  "type": "thermal:press",
+  "ingredient": {
+    "tag": "c:ingots/iron"
+  },
+  "result": [
+    {
+      "item": "thermal:iron_plate"
+    }
+  ]
+}

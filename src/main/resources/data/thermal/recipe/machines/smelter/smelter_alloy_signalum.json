@@ -1,0 +1,38 @@
+{
+  "type": "thermal:smelter",
+  "ingredients": [
+    {
+      "value": [
+        {
+          "tag": "c:ingots/copper"
+        },
+        {
+          "tag": "c:dusts/copper"
+        }
+      ],
+      "count": 3
+    },
+    {
+      "value": [
+        {
+          "tag": "c:ingots/silver"
+        },
+        {
+          "tag": "c:dusts/silver"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "tag": "c:dusts/redstone",
+      "count": 4
+    }
+  ],
+  "result": [
+    {
+      "item": "thermal:signalum_ingot",
+      "count": 4
+    }
+  ],
+  "energy": 12000
+}

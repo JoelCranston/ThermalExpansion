@@ -1,0 +1,19 @@
+{
+  "type": "thermal:smelter_recycle",
+  "ingredient": {
+    "tag": "c:tools/gold"
+  },
+  "result": [
+    {
+      "item": "minecraft:gold_ingot",
+      "count": 1
+    }
+  ],
+  "experience": 0.4,
+  "neoforge:conditions": [
+    {
+      "tag": "c:tools/gold",
+      "type": "cofh_core:tag_exists"
+    }
+  ]
+}
