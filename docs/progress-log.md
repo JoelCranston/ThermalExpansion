@@ -54,3 +54,12 @@ accumulated context out of chat history and into the repos themselves. CoFHCore'
 `1.20.6:`-prefixed commit messages (already API-note-shaped) plus a fresh
 `./gradlew compileJava` run to capture the true current error breakdown; the other
 three repos' docs are lighter, since their own 1.20.6 migrations haven't started yet.
+
+## Phase 2, revised (2026-09-21)
+
+The route is now 1.21.1 → 26.1.2 with no other intermediates, ModDevGradle from Phase 0, and
+the 1.20.6 hop abandoned before this repo ever started it — see `../CoFHCore/docs/port-plan.md`
+and the matching entry in `../CoFHCore/docs/progress-log.md` for what re-verification changed.
+Branch `1.21.1` created today. `../ThermalExpansionForNeoForge` (SPLIGAN's 1.21.1 port of this repo) is the Phase A
+worklist; `../Pyronetics` is the 26.1.2 reference. The uncommitted 1.20.6 build bump is left
+uncommitted on purpose.

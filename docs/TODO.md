@@ -5,19 +5,19 @@ already done and why.
 
 ## Next up
 
-1. **Blocked on CoFHCore's 1.20.6 hop.** `gradle.properties`/`build.gradle` here are
-   already bumped to `mc_version=1.20.6`/`neo_version=20.6.141`/`java_version=21`
-   locally (uncommitted, on top of the `1.20.4` branch) — don't commit or start
-   migrating this repo's own code until `../CoFHCore` compiles clean on 1.20.6 (check
-   its `docs/TODO.md`), since this repo depends on it (and on ThermalCore) directly.
-2. **Switch to the local `1.20.6` branch before committing that bump** — it already
-   exists (currently identical to the old `1.20.4` HEAD) but isn't checked out; the
-   uncommitted bump is sitting on `1.20.4` right now and shouldn't be committed there.
-3. Once unblocked: run `./gradlew compileJava`, triage by root-cause category (see
-   CoFHCore's `docs/progress-log.md` "working method" section), verifying each API
-   shape via `javap` against the real mapped jar. Check
-   `../CoFHCore/docs/api-notes-1.20.6.md` first — several categories will likely recur
-   here.
+The plan for all four repos is `../CoFHCore/docs/port-plan.md`; this repo's steps are §4 (Phase 0,
+per repo), §5 A.2/A.3 (1.21.1) and §6 B.10 (26.1.2).
+
+1. **Blocked on CoFHCore's Phase A** (`../CoFHCore/docs/TODO.md`). Nothing here compiles
+   independently of it.
+2. When unblocked, in this order: Phase 0.3 (ModDevGradle 2.0.147, template in port-plan.md
+   §4.3), 0.4 (`git mv META-INF/mods.toml META-INF/neoforge.mods.toml`), A.0 (`gradle.properties`
+   values from §5 A.0), then `diff -ru src ../ThermalExpansionForNeoForge/src` and apply the 1.21.1 hunks;
+   compile; fix what remains by category, reusing CoFHCore's confirmed shapes
+   (`../CoFHCore/docs/api-notes-1.21.1.md`) rather than re-deriving them.
+3. Resources sweep (§5 A.1.15): singular tag/data folders, `"forge:` → `"c:`, in
+   `src/main/resources` and `src/main/generated`.
+4. `../Pyronetics/scripts/verify_runserver.sh` passes; Joel's `runClient` check; commit.
 
 ## Inbox
 
