@@ -12,6 +12,8 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.advanced.IRecipeManagerPlugin;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -51,18 +53,16 @@ public class PotionFluidRecipeManagerPlugin implements IRecipeManagerPlugin {
                 var fluidIngredient = focus.getTypedValue().getIngredient(NeoForgeTypes.FLUID_STACK);
                 if (fluidIngredient.isPresent() && fluidIngredient.get().getFluid() == POTION_FLUID.get()) {
                     FluidStack fluid = fluidIngredient.get();
-                    if (fluid.hasTag()) {
-                        ItemStack item = new ItemStack(Items.POTION);
-                        item.setTag(fluid.getTag().copy());
-                        retList.add(getDynamicBottlerPotionRecipe(item, fluid));
+                    if (fluid.has(DataComponents.POTION_CONTENTS)) {
+                        retList.add(getDynamicBottlerPotionRecipe(PotionFluid.getItemFromPotionFluid(fluid), fluid));
                     }
                 }
             } else if (focus.getRole() == RecipeIngredientRole.OUTPUT) {
                 var ingredient = focus.getTypedValue().getIngredient(VanillaTypes.ITEM_STACK);
                 if (ingredient.isPresent() && ingredient.get().getItem() == Items.POTION) {
                     ItemStack item = ingredient.get();
-                    if (item.hasTag()) {
-                        FluidStack fluid = PotionFluid.getPotionFluidFromItem(BOTTLE_VOLUME, item);
+                    FluidStack fluid = PotionFluid.getPotionFluidFromItem(BOTTLE_VOLUME, item);
+                    if (!fluid.isEmpty()) {
                         retList.add(getDynamicBottlerPotionRecipe(item, fluid));
                     }
                 }
@@ -77,15 +77,14 @@ public class PotionFluidRecipeManagerPlugin implements IRecipeManagerPlugin {
 
         if (recipeCategory instanceof BottlerRecipeCategory) {
             if (bottlerRecipes.isEmpty()) {
-                for (Potion potion : BuiltInRegistries.POTION) {
-                    if (potion != null && potion != Potions.WATER && potion != Potions.EMPTY) {
+                // Potions are registry objects held by Holder since 1.21, and Potions.EMPTY is gone.
+                for (Holder<Potion> potion : BuiltInRegistries.POTION.holders().toList()) {
+                    if (!potion.is(Potions.WATER)) {
                         FluidStack fluid = PotionFluid.getPotionAsFluid(250, potion);
                         if (fluid.isEmpty()) {
                             continue;
                         }
-                        ItemStack item = new ItemStack(Items.POTION);
-                        item.setTag(fluid.getTag());
-                        bottlerRecipes.add(getDynamicBottlerPotionRecipe(item, fluid));
+                        bottlerRecipes.add(getDynamicBottlerPotionRecipe(PotionFluid.getItemFromPotionFluid(fluid), fluid));
                     }
                 }
             }
