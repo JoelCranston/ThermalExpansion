@@ -99,3 +99,45 @@ resolve against 21.1.251; the 27 JEI files' entire API surface (`IRecipeCategory
 only JEI file that needed work was the potion plugin, for a vanilla reason. There are no
 mixins, no Curios integration, no vertex-API use and no `BlockEntity` save/load overrides in
 this repo, so those categories are no-ops here.
+
+---
+
+## Phase A complete — 1.21.1 (2026-09-22)
+
+Ported **source-level and in parallel with ThermalCore**, without a compiler — this repo's build
+`includeBuild`s ThermalCore, so nothing here compiled until that landed. Verification in the
+meantime was by hand: all 56 `net.minecraft` and 20 `net.neoforged` imports resolved against the
+21.1.251 sources jar, and every JEI API member the 27 JEI files touch exists in 19.57.0.446. It
+compiled clean on the first real attempt.
+
+Eight commits, one per root cause: event bus and `ConfigManager#register` → potion NBT to
+`POTION_CONTENTS` → `FluidStack#copyWithAmount` and the item wire format → crafting recipes take
+a `RecipeInput` → `hurtAndBreak` → datagen registries and `c:` tag renames → access transformers
+byte-identical to CoFHCore's → recipe result keys.
+
+### Three deliberate divergences from SPLIGAN's fork
+
+1. **No `FriendlyByteBuf` → `RegistryFriendlyByteBuf` cast.** `TileConfigPacket` builds its
+   buffer from `new FriendlyByteBuf(Unpooled.buffer())` and the payload's stream codec is over
+   `REMAINING_BYTES` — there is no registry context, so the fork's cast in
+   `MachineCrafterBlockEntity` is a runtime `ClassCastException`. Stacks go through
+   `saveOptional`/`parseOptional`, the same escape hatch CoFHCore took in `FluidFilterMenu`.
+2. **`CraftingContainer#asCraftInput()` already exists** as a vanilla default; the fork
+   hand-rolls a `CraftingInput.of(3, 3, stacks)` helper in two classes.
+3. **`Tags.Items.STONE/SAND/GLASS` → `STONES`/`SANDS`/`GLASS_BLOCKS`**, not the fork's downgrade
+   to concrete `Blocks.*`. The generated JSON here already emits `c:stones`/`c:sands`/
+   `c:glass_blocks`, so their version would have silently de-tagged six recipes.
+
+Also worth recording: `javax.annotation.Nullable` still resolves on 21.1.251, so the fork's mass
+switch to `org.jetbrains.annotations` is noise.
+
+### Recipe JSON
+
+Vanilla-type recipes moved to `{"id": …}` results; **CoFH's own machine recipes keep
+`{"item": …}`**, because `RecipeJsonUtils` parses them, not a codec. Getting that backwards
+broke two recipes and was caught by the boot.
+
+### Owed
+
+`runData`; and the client pass (machine GUIs, JEI recipe pages). One pre-existing content gap is
+in the Inbox. Shapes: `../CoFHCore/docs/api-notes-1.21.1.md`.

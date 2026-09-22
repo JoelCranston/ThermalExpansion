@@ -39,19 +39,29 @@ before writing code against it.
 
 ## Current state
 
-Branch **`1.21.1`**. Phase 0.3/0.4 and A.0 are **done** (2026-09-22): ModDevGradle 2.0.147
-replaces NeoGradle userdev, `META-INF/neoforge.mods.toml` replaces `mods.toml`, and
-`gradle.properties` is at the Phase A values (java 21 / MC 1.21.1 / NeoForge 21.1.251 /
-JEI 19.57.0.446). **Gradle configures cleanly**; nothing compiles yet, and will not until
-CoFHCore and ThermalCore do.
+**Phase A done (2026-09-22): builds clean and boots headless on NeoForge 21.1.251.**
+Branch **`1.21.1`**, ModDevGradle 2.0.147, `META-INF/neoforge.mods.toml`, JEI 19.57.0.446.
 
-Two family-wide sweeps have been applied here ahead of this repo's own Phase A, because each
-was cheaper to run once for all four repos: the `ResourceLocation` constructor sweep (A.1
-category 2) and the resources sweep (A.1 item 15 — singular data folders, `forge:` → `c:`
-tags, `neoforge:conditions`). See `docs/TODO.md`'s Inbox for the `c:` tags that are
-referenced but defined nowhere.
+This repo was ported **source-level, in parallel with ThermalCore**, against the 21.1.251
+sources jar and CoFHCore's already-ported code — it could not compile at the time, since its
+build `includeBuild`s ThermalCore. It compiled clean on the first attempt once ThermalCore
+landed. A `runServer` here loads CoFHCore + ThermalCore + ThermalExpansion together and reaches
+`Done (…)`.
 
-**Blocked on CoFHCore**: this repo's own Java porting starts only once `../CoFHCore` builds
-clean on 1.21.1 and boots headless (its `docs/TODO.md` tracks that), then ThermalCore. After
-that: `diff -ru src ../ThermalExpansionForNeoForge/src` and work through the hunks
-(port-plan.md §5 A.2/A.3).
+Where this repo deliberately diverges from `../ThermalExpansionForNeoForge`:
+
+- **No `FriendlyByteBuf` → `RegistryFriendlyByteBuf` casts.** CoFH's config/GUI packet buffers
+  are plain scratch buffers with no registry context; the fork's cast is a runtime
+  `ClassCastException`. Stacks go through `saveOptional`/`parseOptional` instead.
+- **`Tags.Items.STONE/SAND/GLASS` became `STONES`/`SANDS`/`GLASS_BLOCKS`**, not the fork's
+  downgrade to concrete `Blocks.*`, which would have silently de-tagged six recipes.
+- **Resources are ours, not theirs.** Their `data/thermal/recipes` stayed plural, so ~470 of
+  their machine recipes never load.
+
+CoFH's own machine recipes are parsed by `RecipeJsonUtils`, not by a codec, so they keep the
+`{"item": …}` result shape while vanilla-type recipes moved to `{"id": …}`.
+
+**Next step**: nothing blocking. `runData` has not been run here; the client pass (machine GUIs,
+JEI recipe pages) is Joel's — see `../CoFHCore/docs/TODO.md`. API shapes:
+`../CoFHCore/docs/api-notes-1.21.1.md`. One pre-existing content gap is filed in this repo's
+Inbox (`insolator_rubberwood_sapling` references items ThermalCore never registered).
