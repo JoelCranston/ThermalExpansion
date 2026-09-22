@@ -31,6 +31,8 @@ Phase A (1.21.1) is **code-complete** on branch `1.21.1`: `./gradlew build` is c
   guidebook page. Pre-existing content gap, not a port regression: on 1.20.4 the old parser
   produced an empty recipe silently, while 1.21's codec path logs a parse error every boot.
   Either add the rubberwood tree to ThermalCore or delete the recipe - a content decision.
+  The same holds for the recipes using `thermal:oil_sand` / `thermal:oil_red_sand`: ThermalCore defines `ID_OIL_SAND`
+  but never registers the blocks, so both recipes fail to parse at boot (seen 2026-09-22).
 
 
 - **`c:` tags referenced here that NeoForge 21.1.251 does not define.** Every distinct `c:`
