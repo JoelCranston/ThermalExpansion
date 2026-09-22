@@ -77,7 +77,6 @@ public class PotionFluidRecipeManagerPlugin implements IRecipeManagerPlugin {
 
         if (recipeCategory instanceof BottlerRecipeCategory) {
             if (bottlerRecipes.isEmpty()) {
-                // Potions are registry objects held by Holder since 1.21, and Potions.EMPTY is gone.
                 for (Holder<Potion> potion : BuiltInRegistries.POTION.holders().toList()) {
                     if (!potion.is(Potions.WATER)) {
                         FluidStack fluid = PotionFluid.getPotionAsFluid(250, potion);

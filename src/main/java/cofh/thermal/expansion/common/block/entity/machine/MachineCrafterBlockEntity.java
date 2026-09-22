@@ -102,8 +102,6 @@ public class MachineCrafterBlockEntity extends MachineBlockEntity {
             craftMatrix.setItem(i, inventory.get(SLOT_CRAFTING_START + i));
         }
         RecipeHolder<CraftingRecipe> craftRecipe;
-        // Recipes take a RecipeInput rather than a Container since 1.21; CraftingContainer
-        // provides the conversion.
         CraftingInput craftingInput = craftMatrix.asCraftInput();
         Optional<RecipeHolder<CraftingRecipe>> possibleRecipe = level.getRecipeManager().getRecipeFor(RecipeType.CRAFTING, craftingInput, level);
         if (possibleRecipe.isPresent()) {
@@ -247,10 +245,7 @@ public class MachineCrafterBlockEntity extends MachineBlockEntity {
         super.getConfigPacket(buffer);
 
         for (int i = SLOT_CRAFTING_START; i < SLOT_CRAFTING_START + 9; ++i) {
-            // FriendlyByteBuf#writeItem/readItem are gone - ItemStack's only stream codec needs a
-            // RegistryFriendlyByteBuf, and the config packet's buffer is a plain scratch
-            // FriendlyByteBuf (TileConfigPacket#sendToServer). save/parseOptional take the registry
-            // provider directly, so the stack round-trips as NBT with its components intact.
+            // Not a RegistryFriendlyByteBuf, so ItemStack.STREAM_CODEC can't be used here.
             buffer.writeNbt(inventory.getStackInSlot(i).saveOptional(ProxyUtils.registryAccess()));
         }
         return buffer;

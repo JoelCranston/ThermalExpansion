@@ -95,10 +95,6 @@ public class MachineInsolatorBlockEntity extends MachineBlockEntity {
         int decrement = itemInputCounts.size() > 1 ? itemInputCounts.get(1) : 0;
         if (decrement > 0) {
             if (catalystSlot.getItemStack().isDamageableItem()) {
-                // ItemStack#hurt(int, RandomSource, ServerPlayer) is gone; damage goes through
-                // hurtAndBreak, which needs the ServerLevel and reports the break by callback
-                // instead of a return value. Unbreaking is applied inside it now, so the old
-                // RandomSource argument has no successor.
                 if (level instanceof ServerLevel serverLevel) {
                     catalystSlot.getItemStack().hurtAndBreak(decrement, serverLevel, (ServerPlayer) null, item -> catalystSlot.modify(-1));
                 }
