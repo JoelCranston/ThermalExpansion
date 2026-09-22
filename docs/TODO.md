@@ -45,5 +45,21 @@ compiles yet.
   - **`c:storage_blocks/quartz`** — one reference (`machine_press`), and neither NeoForge nor
     ThermalCore defines it; vanilla's quartz block is not a convention "storage block".
     Probably wants `minecraft:quartz_block` directly. Needs a decision.
+- **Who owns ThermalCore's shared `CONFIG_MANAGER` container?** `ConfigManager#register` takes
+  a `ModContainer` now, and all three Thermal repos call it on the same static instance, so the
+  field is simply overwritten by whichever mod constructor runs last - and that container is the
+  one `setupServer/setupClient/setupCommon` register the specs against, which decides the config
+  file's name. The 1.20.4 code had the same last-writer-wins shape via `ModLoadingContext.get()`,
+  so this is not a regression, but it should be settled deliberately in ThermalCore.
+- **`ThermalMachineConfig` pushes the Crystallizer section under `"Brewer"`** (a copy-paste bug
+  in the 1.20.4 source, not a port issue). SPLIGAN's fork fixes it to `"Crystallizer"`. Left
+  alone here because it is out of category and changes the config file's shape.
+- **`MachineCrafterMenu#slotChangedCraftingGrid` calls
+  `craftResult.setRecipeUsed(craftResult.getRecipeUsed())`**, which never records the recipe that
+  was just found - `calcCraftingGrid` a few lines below does it correctly. Also an upstream bug,
+  also fixed in SPLIGAN's fork. Out of category, left alone.
+- **`pack.mcmeta` still declares `pack_format: 15`** (1.20.1) in all four repos; 1.21.1 wants 34
+  for assets / 48 for data. CoFHCore's is the same, so this is a family-wide decision, not a
+  ThermalExpansion one.
 - **`.DS_Store` is untracked/ignorable noise across all four repos** — port-plan.md §4.2 wants
   a `.gitignore` entry. Not done here.
