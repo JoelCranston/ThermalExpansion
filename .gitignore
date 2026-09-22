@@ -19,5 +19,10 @@
 
 # Include Important Folders
 !src/
+!scripts/
+!docs/
+
+# Session context exports are local-only, not for the repo
+docs/context/
 
 /src/main/generated/.cache/
