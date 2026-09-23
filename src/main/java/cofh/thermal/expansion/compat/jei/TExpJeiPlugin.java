@@ -17,7 +17,7 @@ import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
@@ -187,9 +187,9 @@ public class TExpJeiPlugin implements IModPlugin {
     }
 
     @Override
-    public ResourceLocation getPluginUid() {
+    public Identifier getPluginUid() {
 
-        return ResourceLocation.fromNamespaceAndPath(ID_THERMAL, "expansion");
+        return Identifier.fromNamespaceAndPath(ID_THERMAL, "expansion");
     }
 
     // region HELPERS

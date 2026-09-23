@@ -272,7 +272,7 @@ public class MachineCrafterBlockEntity extends MachineBlockEntity {
         boolean hasRecipe = craftResult.getRecipeUsed() != null;
         buffer.writeBoolean(hasRecipe);
         if (hasRecipe) {
-            buffer.writeResourceLocation(craftResult.getRecipeUsed().id());
+            buffer.writeIdentifier(craftResult.getRecipeUsed().id());
         }
         return buffer;
     }
@@ -283,7 +283,7 @@ public class MachineCrafterBlockEntity extends MachineBlockEntity {
         super.handleGuiPacket(buffer);
 
         if (buffer.readBoolean() && level != null) {
-            Optional<RecipeHolder<?>> possibleRecipe = level.getRecipeManager().byKey(buffer.readResourceLocation());
+            Optional<RecipeHolder<?>> possibleRecipe = level.getRecipeManager().byKey(buffer.readIdentifier());
             possibleRecipe.ifPresent(recipe -> curRecipe = CrafterRecipeManager.instance().getRecipe(recipe, level.registryAccess()));
         } else {
             curRecipe = null;

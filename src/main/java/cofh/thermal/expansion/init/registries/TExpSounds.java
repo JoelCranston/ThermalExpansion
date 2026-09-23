@@ -1,6 +1,6 @@
 package cofh.thermal.expansion.init.registries;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 
 import java.util.function.Supplier;
@@ -21,7 +21,7 @@ public class TExpSounds {
 
     public static Supplier<SoundEvent> registerSound(String soundID) {
 
-        return SOUND_EVENTS.register(soundID, () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(ID_THERMAL, soundID)));
+        return SOUND_EVENTS.register(soundID, () -> SoundEvent.createVariableRangeEvent(Identifier.fromNamespaceAndPath(ID_THERMAL, soundID)));
     }
 
     // region IDs

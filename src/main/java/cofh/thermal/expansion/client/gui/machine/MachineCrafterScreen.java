@@ -6,7 +6,7 @@ import cofh.thermal.core.client.gui.ThermalGuiHelper;
 import cofh.thermal.expansion.common.inventory.machine.MachineCrafterMenu;
 import cofh.thermal.lib.client.gui.MachineScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
 import static cofh.core.util.helpers.GuiHelper.*;
@@ -17,7 +17,7 @@ import static cofh.lib.util.helpers.SoundHelper.playClickSound;
 public class MachineCrafterScreen extends MachineScreen<MachineCrafterMenu> {
 
     public static final String TEX_PATH = ID_THERMAL + ":textures/gui/container/crafter.png";
-    public static final ResourceLocation TEXTURE = ResourceLocation.parse(TEX_PATH);
+    public static final Identifier TEXTURE = Identifier.parse(TEX_PATH);
 
     public static final String TEX_ACCEPT = ID_COFH_CORE + ":textures/gui/elements/button_accept.png";
 
