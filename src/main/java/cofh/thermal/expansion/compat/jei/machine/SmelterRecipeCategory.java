@@ -13,7 +13,7 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -83,7 +83,7 @@ public class SmelterRecipeCategory extends ThermalRecipeCategory<RecipeHolder<Sm
         }
         if (recipe.value().isCatalyzable()) {
             catalystSlot.addItemStacks(catalysts)
-                    .addTooltipCallback(catalystTooltip());
+                    .addRichTooltipCallback(catalystTooltip());
         }
         outputSlots[0] = builder.addSlot(RecipeIngredientRole.OUTPUT, 115, 15);
         outputSlots[1] = builder.addSlot(RecipeIngredientRole.OUTPUT, 133, 15);
@@ -92,12 +92,12 @@ public class SmelterRecipeCategory extends ThermalRecipeCategory<RecipeHolder<Sm
 
         for (int i = 0; i < outputs.size(); ++i) {
             outputSlots[i].addItemStack(outputs.get(i))
-                    .addTooltipCallback(catalyzedOutputTooltip(recipe.value().getOutputItemChances().get(i), recipe.value().isCatalyzable()));
+                    .addRichTooltipCallback(catalyzedOutputTooltip(recipe.value().getOutputItemChances().get(i), recipe.value().isCatalyzable()));
         }
     }
 
     @Override
-    public void draw(RecipeHolder<SmelterRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(RecipeHolder<SmelterRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
 
         super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
 

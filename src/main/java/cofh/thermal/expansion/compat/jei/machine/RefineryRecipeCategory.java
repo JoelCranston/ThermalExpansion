@@ -17,7 +17,7 @@ import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -96,30 +96,30 @@ public class RefineryRecipeCategory extends ThermalRecipeCategory<RecipeHolder<R
         IRecipeSlotBuilder outputSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 97, 24);
         if (!outputs.isEmpty()) {
             outputSlot.addItemStack(outputs.get(0))
-                    .addTooltipCallback(defaultOutputTooltip(recipe.value().getOutputItemChances().get(0)));
+                    .addRichTooltipCallback(defaultOutputTooltip(recipe.value().getOutputItemChances().get(0)));
         }
 
         builder.addSlot(RecipeIngredientRole.INPUT, 29, 6)
                 .addIngredients(NeoForgeTypes.FLUID_STACK, List.of(inputFluids.get(0).getFluids()))
                 .setFluidRenderer(tankSize(TANK_SMALL), false, 16, 32)
                 .setOverlay(inputOverlay, 0, 0)
-                .addTooltipCallback(defaultFluidTooltip());
+                .addRichTooltipCallback(defaultFluidTooltip());
 
         builder.addSlot(RecipeIngredientRole.OUTPUT, 126, 12)
                 .addIngredients(NeoForgeTypes.FLUID_STACK, outputFluids.isEmpty() ? Collections.emptyList() : List.of(outputFluids.get(0)))
                 .setFluidRenderer(tankSize(TANK_MEDIUM), false, 16, 40)
                 .setOverlay(outputOverlayA, 0, 0)
-                .addTooltipCallback(defaultFluidTooltip());
+                .addRichTooltipCallback(defaultFluidTooltip());
 
         builder.addSlot(RecipeIngredientRole.OUTPUT, 144, 12)
                 .addIngredients(NeoForgeTypes.FLUID_STACK, outputFluids.size() < 2 ? Collections.emptyList() : List.of(outputFluids.get(1)))
                 .setFluidRenderer(tankSize(TANK_MEDIUM), false, 16, 40)
                 .setOverlay(outputOverlayB, 0, 0)
-                .addTooltipCallback(defaultFluidTooltip());
+                .addRichTooltipCallback(defaultFluidTooltip());
     }
 
     @Override
-    public void draw(RecipeHolder<RefineryRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(RecipeHolder<RefineryRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
 
         super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
 

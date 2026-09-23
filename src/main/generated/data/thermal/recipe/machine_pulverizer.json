@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "item": "thermal:machine_frame"
-    },
-    "I": {
-      "tag": "c:gears/copper"
-    },
-    "P": {
-      "item": "thermal:rf_coil"
-    },
-    "X": {
-      "item": "minecraft:piston"
-    },
-    "Y": {
-      "item": "minecraft:flint"
-    }
+    "C": "thermal:machine_frame",
+    "I": "#c:gears/copper",
+    "P": "thermal:rf_coil",
+    "X": "minecraft:piston",
+    "Y": "minecraft:flint"
   },
   "pattern": [
     " X ",
@@ -24,7 +14,6 @@
     "IPI"
   ],
   "result": {
-    "count": 1,
     "id": "thermal:machine_pulverizer"
   }
 }

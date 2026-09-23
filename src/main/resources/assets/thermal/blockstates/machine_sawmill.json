@@ -1,32 +1,40 @@
 {
   "variants": {
     "facing=north,active=false": {
+      "type": "thermal:reconfigurable",
       "model": "thermal:block/machine_sawmill"
     },
     "facing=east,active=false": {
+      "type": "thermal:reconfigurable",
       "model": "thermal:block/machine_sawmill",
       "y": 90
     },
     "facing=south,active=false": {
+      "type": "thermal:reconfigurable",
       "model": "thermal:block/machine_sawmill",
       "y": 180
     },
     "facing=west,active=false": {
+      "type": "thermal:reconfigurable",
       "model": "thermal:block/machine_sawmill",
       "y": 270
     },
     "facing=north,active=true": {
+      "type": "thermal:reconfigurable",
       "model": "thermal:block/machine_sawmill_active"
     },
     "facing=east,active=true": {
+      "type": "thermal:reconfigurable",
       "model": "thermal:block/machine_sawmill_active",
       "y": 90
     },
     "facing=south,active=true": {
+      "type": "thermal:reconfigurable",
       "model": "thermal:block/machine_sawmill_active",
       "y": 180
     },
     "facing=west,active=true": {
+      "type": "thermal:reconfigurable",
       "model": "thermal:block/machine_sawmill_active",
       "y": 270
     }

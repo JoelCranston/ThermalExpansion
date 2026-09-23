@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "thermal:reconfigurable",
+    "model": "thermal:block/machine_smelter"
+  }
+}

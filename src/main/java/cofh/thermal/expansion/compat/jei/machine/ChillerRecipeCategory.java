@@ -2,6 +2,7 @@ package cofh.thermal.expansion.compat.jei.machine;
 
 import cofh.core.util.helpers.RenderHelper;
 import cofh.lib.common.fluid.FluidIngredient;
+import cofh.lib.util.crafting.EmptyIngredient;
 import cofh.thermal.core.util.managers.machine.ChillerRecipeManager;
 import cofh.thermal.core.util.recipes.machine.ChillerRecipe;
 import cofh.thermal.expansion.client.gui.machine.MachineChillerScreen;
@@ -16,7 +17,7 @@ import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -70,21 +71,21 @@ public class ChillerRecipeCategory extends ThermalRecipeCategory<RecipeHolder<Ch
         List<ItemStack> outputs = recipe.value().getOutputItems();
 
         builder.addSlot(RecipeIngredientRole.INPUT, 52, 15)
-                .addIngredients(inputs.isEmpty() ? Ingredient.EMPTY : inputs.get(0));
+                .addIngredients(inputs.isEmpty() ? EmptyIngredient.EMPTY : inputs.get(0));
 
         builder.addSlot(RecipeIngredientRole.OUTPUT, 115, 24)
                 .addItemStack(outputs.get(0))
-                .addTooltipCallback(defaultOutputTooltip(recipe.value().getOutputItemChances().get(0)));
+                .addRichTooltipCallback(defaultOutputTooltip(recipe.value().getOutputItemChances().get(0)));
 
         builder.addSlot(RecipeIngredientRole.INPUT, 25, 11)
                 .addIngredients(NeoForgeTypes.FLUID_STACK, List.of(inputFluids.get(0).getFluids()))
                 .setFluidRenderer(tankSize(TANK_MEDIUM), false, 16, 40)
                 .setOverlay(tankOverlay, 0, 0)
-                .addTooltipCallback(defaultFluidTooltip());
+                .addRichTooltipCallback(defaultFluidTooltip());
     }
 
     @Override
-    public void draw(RecipeHolder<ChillerRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(RecipeHolder<ChillerRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
 
         super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
 

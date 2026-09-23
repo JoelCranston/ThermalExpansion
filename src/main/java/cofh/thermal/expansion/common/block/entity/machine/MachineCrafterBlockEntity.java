@@ -3,6 +3,7 @@ package cofh.thermal.expansion.common.block.entity.machine;
 import cofh.core.util.ProxyUtils;
 import cofh.core.util.helpers.FluidHelper;
 import cofh.core.util.helpers.InventoryHelper;
+import cofh.core.util.helpers.ItemHelper;
 import cofh.lib.common.fluid.FluidStorageCoFH;
 import cofh.lib.common.inventory.FalseCraftingContainer;
 import cofh.lib.common.inventory.ItemStorageCoFH;
@@ -13,13 +14,17 @@ import cofh.thermal.core.common.item.SlotSealItem;
 import cofh.thermal.core.util.managers.machine.CrafterRecipeManager;
 import cofh.thermal.expansion.common.inventory.machine.MachineCrafterMenu;
 import cofh.thermal.lib.common.block.entity.MachineBlockEntity;
+import cofh.thermal.lib.util.ThermalRecipeManagers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ResultContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -103,10 +108,10 @@ public class MachineCrafterBlockEntity extends MachineBlockEntity {
         }
         RecipeHolder<CraftingRecipe> craftRecipe;
         CraftingInput craftingInput = craftMatrix.asCraftInput();
-        Optional<RecipeHolder<CraftingRecipe>> possibleRecipe = level.getRecipeManager().getRecipeFor(RecipeType.CRAFTING, craftingInput, level);
+        Optional<RecipeHolder<CraftingRecipe>> possibleRecipe = ((ServerLevel) level).recipeAccess().getRecipeFor(RecipeType.CRAFTING, craftingInput, level);
         if (possibleRecipe.isPresent()) {
             craftRecipe = possibleRecipe.get();
-            craftResult.setItem(0, craftRecipe.value().assemble(craftingInput, level.registryAccess()));
+            craftResult.setItem(0, craftRecipe.value().assemble(craftingInput));
         } else {
             craftRecipe = null;
             craftResult.setItem(0, ItemStack.EMPTY);
@@ -208,8 +213,9 @@ public class MachineCrafterBlockEntity extends MachineBlockEntity {
             ItemStack toAdd = ItemStack.EMPTY;
 
             // If max stack size is 1, normal consume behavior will work
-            if (stackInSlot.getMaxStackSize() > 1 && stackInSlot.hasCraftingRemainingItem()) {
-                toAdd = cloneStack(stackInSlot.getCraftingRemainingItem(), itemInputCounts.get(i));
+            ItemStackTemplate remainder = stackInSlot.getItem().getCraftingRemainder(stackInSlot);
+            if (stackInSlot.getMaxStackSize() > 1 && remainder != null) {
+                toAdd = cloneStack(remainder.create(), itemInputCounts.get(i));
             }
             inputSlots().get(i).consume(itemInputCounts.get(i));
 
@@ -246,7 +252,7 @@ public class MachineCrafterBlockEntity extends MachineBlockEntity {
 
         for (int i = SLOT_CRAFTING_START; i < SLOT_CRAFTING_START + 9; ++i) {
             // Not a RegistryFriendlyByteBuf, so ItemStack.STREAM_CODEC can't be used here.
-            buffer.writeNbt(inventory.getStackInSlot(i).saveOptional(ProxyUtils.registryAccess()));
+            buffer.writeNbt(ItemHelper.saveOptional(ProxyUtils.registryAccess(), inventory.getStackInSlot(i)));
         }
         return buffer;
     }
@@ -257,7 +263,7 @@ public class MachineCrafterBlockEntity extends MachineBlockEntity {
         super.handleConfigPacket(buffer);
 
         for (int i = SLOT_CRAFTING_START; i < SLOT_CRAFTING_START + 9; ++i) {
-            inventory.set(i, ItemStack.parseOptional(ProxyUtils.registryAccess(), buffer.readNbt()));
+            inventory.set(i, ItemHelper.parseOptional(ProxyUtils.registryAccess(), buffer.readNbt()));
         }
         setRecipe();
         markChunkUnsaved();
@@ -272,7 +278,7 @@ public class MachineCrafterBlockEntity extends MachineBlockEntity {
         boolean hasRecipe = craftResult.getRecipeUsed() != null;
         buffer.writeBoolean(hasRecipe);
         if (hasRecipe) {
-            buffer.writeIdentifier(craftResult.getRecipeUsed().id());
+            buffer.writeResourceKey(craftResult.getRecipeUsed().id());
         }
         return buffer;
     }
@@ -283,8 +289,8 @@ public class MachineCrafterBlockEntity extends MachineBlockEntity {
         super.handleGuiPacket(buffer);
 
         if (buffer.readBoolean() && level != null) {
-            Optional<RecipeHolder<?>> possibleRecipe = level.getRecipeManager().byKey(buffer.readIdentifier());
-            possibleRecipe.ifPresent(recipe -> curRecipe = CrafterRecipeManager.instance().getRecipe(recipe, level.registryAccess()));
+            RecipeHolder<?> recipe = ThermalRecipeManagers.instance().getClientRecipeMap().byKey(buffer.readResourceKey(Registries.RECIPE));
+            curRecipe = CrafterRecipeManager.instance().getRecipe(recipe, level.registryAccess());
         } else {
             curRecipe = null;
         }

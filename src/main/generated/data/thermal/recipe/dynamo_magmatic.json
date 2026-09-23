@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "item": "thermal:rf_coil"
-    },
-    "G": {
-      "tag": "c:gears/invar"
-    },
-    "I": {
-      "tag": "c:ingots/iron"
-    },
-    "X": {
-      "tag": "c:dusts/redstone"
-    },
-    "Y": {
-      "tag": "c:ingots/invar"
-    }
+    "C": "thermal:rf_coil",
+    "G": "#c:gears/invar",
+    "I": "#c:ingots/iron",
+    "X": "#c:dusts/redstone",
+    "Y": "#c:ingots/invar"
   },
   "pattern": [
     " C ",
@@ -24,7 +14,6 @@
     "YXY"
   ],
   "result": {
-    "count": 1,
     "id": "thermal:dynamo_magmatic"
   }
 }

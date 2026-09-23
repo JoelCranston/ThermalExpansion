@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "P": {
-      "tag": "c:plates/invar"
-    },
-    "X": {
-      "tag": "c:gems/emerald"
-    }
+    "P": "#c:plates/invar",
+    "X": "#c:gems/emerald"
   },
   "pattern": [
     " P ",
@@ -15,7 +11,6 @@
     " P "
   ],
   "result": {
-    "count": 1,
     "id": "thermal:press_coin_die"
   }
 }

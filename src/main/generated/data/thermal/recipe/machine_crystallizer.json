@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "item": "thermal:machine_frame"
-    },
-    "I": {
-      "tag": "c:gears/constantan"
-    },
-    "P": {
-      "item": "thermal:rf_coil"
-    },
-    "X": {
-      "tag": "thermal:glass/hardened"
-    },
-    "Y": {
-      "tag": "c:plates/signalum"
-    }
+    "C": "thermal:machine_frame",
+    "I": "#c:gears/constantan",
+    "P": "thermal:rf_coil",
+    "X": "#thermal:glass/hardened",
+    "Y": "#c:plates/signalum"
   },
   "pattern": [
     " X ",
@@ -24,7 +14,6 @@
     "IPI"
   ],
   "result": {
-    "count": 1,
     "id": "thermal:machine_crystallizer"
   }
 }

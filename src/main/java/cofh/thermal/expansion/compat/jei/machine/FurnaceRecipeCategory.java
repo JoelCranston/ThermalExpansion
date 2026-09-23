@@ -12,7 +12,7 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -60,11 +60,11 @@ public class FurnaceRecipeCategory extends ThermalRecipeCategory<RecipeHolder<Fu
 
         builder.addSlot(RecipeIngredientRole.OUTPUT, 106, 24)
                 .addItemStack(outputs.get(0))
-                .addTooltipCallback(defaultOutputTooltip(recipe.value().getOutputItemChances().get(0)));
+                .addRichTooltipCallback(defaultOutputTooltip(recipe.value().getOutputItemChances().get(0)));
     }
 
     @Override
-    public void draw(RecipeHolder<FurnaceRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(RecipeHolder<FurnaceRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
 
         super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
 

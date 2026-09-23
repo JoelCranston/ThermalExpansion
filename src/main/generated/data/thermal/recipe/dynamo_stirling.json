@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "item": "thermal:rf_coil"
-    },
-    "G": {
-      "tag": "c:gears/iron"
-    },
-    "I": {
-      "tag": "c:ingots/iron"
-    },
-    "X": {
-      "tag": "c:dusts/redstone"
-    },
-    "Y": {
-      "tag": "c:stones"
-    }
+    "C": "thermal:rf_coil",
+    "G": "#c:gears/iron",
+    "I": "#c:ingots/iron",
+    "X": "#c:dusts/redstone",
+    "Y": "#c:stones"
   },
   "pattern": [
     " C ",
@@ -24,7 +14,6 @@
     "YXY"
   ],
   "result": {
-    "count": 1,
     "id": "thermal:dynamo_stirling"
   }
 }

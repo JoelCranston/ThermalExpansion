@@ -23,11 +23,10 @@ public class MachineCrafterScreen extends MachineScreen<MachineCrafterMenu> {
 
     public MachineCrafterScreen(MachineCrafterMenu container, Inventory inv, Component titleIn) {
 
-        super(container, inv, container.tile, titleIn);
+        super(container, inv, container.tile, titleIn, 176, 190);
         texture = TEXTURE;
         info = generatePanelInfo("info.thermal.machine_crafter");
         name = "crafter";
-        imageHeight = 190;
     }
 
     @Override

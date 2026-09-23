@@ -1,6 +1,7 @@
 package cofh.thermal.expansion.compat.jei.machine;
 
 import cofh.core.util.helpers.RenderHelper;
+import cofh.lib.util.crafting.EmptyIngredient;
 import cofh.thermal.core.util.managers.machine.PressRecipeManager;
 import cofh.thermal.core.util.recipes.machine.PressRecipe;
 import cofh.thermal.expansion.client.gui.machine.MachinePressScreen;
@@ -16,7 +17,7 @@ import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -86,23 +87,23 @@ public class PressRecipeCategory extends ThermalRecipeCategory<RecipeHolder<Pres
                 .addIngredients(inputs.get(0));
 
         builder.addSlot(RecipeIngredientRole.INPUT, 43, 42)
-                .addIngredients(inputs.size() < 2 ? Ingredient.EMPTY : inputs.get(1));
+                .addIngredients(inputs.size() < 2 ? EmptyIngredient.EMPTY : inputs.get(1));
 
         IRecipeSlotBuilder outputSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 106, 24);
         if (!outputs.isEmpty()) {
             outputSlot.addItemStack(outputs.get(0))
-                    .addTooltipCallback(defaultOutputTooltip(recipe.value().getOutputItemChances().get(0)));
+                    .addRichTooltipCallback(defaultOutputTooltip(recipe.value().getOutputItemChances().get(0)));
         }
 
         builder.addSlot(RecipeIngredientRole.OUTPUT, 141, 11)
                 .addIngredients(NeoForgeTypes.FLUID_STACK, outputFluids.isEmpty() ? Collections.emptyList() : List.of(outputFluids.get(0)))
                 .setFluidRenderer(tankSize(TANK_SMALL), false, 16, 40)
                 .setOverlay(tankOverlay, 0, 0)
-                .addTooltipCallback(defaultFluidTooltip());
+                .addRichTooltipCallback(defaultFluidTooltip());
     }
 
     @Override
-    public void draw(RecipeHolder<PressRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(RecipeHolder<PressRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
 
         super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
 

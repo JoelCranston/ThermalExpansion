@@ -17,7 +17,7 @@ import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -91,7 +91,7 @@ public class InsolatorRecipeCategory extends ThermalRecipeCategory<RecipeHolder<
 
         if (recipe.value().isCatalyzable()) {
             catalystSlot.addItemStacks(catalysts)
-                    .addTooltipCallback(catalystTooltip());
+                    .addRichTooltipCallback(catalystTooltip());
         }
         outputSlots[0] = builder.addSlot(RecipeIngredientRole.OUTPUT, 106, 15);
         outputSlots[1] = builder.addSlot(RecipeIngredientRole.OUTPUT, 124, 15);
@@ -100,17 +100,17 @@ public class InsolatorRecipeCategory extends ThermalRecipeCategory<RecipeHolder<
 
         for (int i = 0; i < outputs.size(); ++i) {
             outputSlots[i].addItemStack(outputs.get(i))
-                    .addTooltipCallback(catalyzedOutputTooltip(recipe.value().getOutputItemChances().get(i), recipe.value().isCatalyzable()));
+                    .addRichTooltipCallback(catalyzedOutputTooltip(recipe.value().getOutputItemChances().get(i), recipe.value().isCatalyzable()));
         }
         builder.addSlot(RecipeIngredientRole.INPUT, 25, 11)
                 .addIngredients(NeoForgeTypes.FLUID_STACK, List.of(inputFluids.get(0).getFluids()))
                 .setFluidRenderer(tankSize(TANK_MEDIUM), false, 16, 40)
                 .setOverlay(tankOverlay, 0, 0)
-                .addTooltipCallback(defaultFluidTooltip());
+                .addRichTooltipCallback(defaultFluidTooltip());
     }
 
     @Override
-    public void draw(RecipeHolder<InsolatorRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(RecipeHolder<InsolatorRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
 
         super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
 

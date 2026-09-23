@@ -6,6 +6,7 @@ import cofh.thermal.lib.util.references.ThermalTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
@@ -23,13 +24,15 @@ import static net.minecraft.data.recipes.RecipeCategory.MISC;
 
 public class TExpRecipeProvider extends RecipeProviderCoFH {
 
-    public TExpRecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
+    public TExpRecipeProvider(HolderLookup.Provider registries, RecipeOutput output) {
 
-        super(output, registries, ID_THERMAL);
+        super(registries, output, ID_THERMAL);
     }
 
     @Override
-    protected void buildRecipes(RecipeOutput consumer) {
+    protected void buildRecipes() {
+
+        RecipeOutput consumer = output;
 
         generateMachineRecipes(consumer);
         generateDynamoRecipes(consumer);
@@ -44,7 +47,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
         Item machineFrame = reg.get("machine_frame");
         Item rfCoil = reg.get("rf_coil");
 
-        ShapedRecipeBuilder.shaped(BUILDING_BLOCKS, reg.get(ID_MACHINE_FURNACE))
+        ShapedRecipeBuilder.shaped(items, BUILDING_BLOCKS, reg.get(ID_MACHINE_FURNACE))
                 .define('C', machineFrame)
                 .define('I', ItemTagsCoFH.GEARS_COPPER)
                 .define('P', rfCoil)
@@ -56,7 +59,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_machine_frame", has(machineFrame))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(BUILDING_BLOCKS, reg.get(ID_MACHINE_SAWMILL))
+        ShapedRecipeBuilder.shaped(items, BUILDING_BLOCKS, reg.get(ID_MACHINE_SAWMILL))
                 .define('C', machineFrame)
                 .define('I', ItemTagsCoFH.GEARS_COPPER)
                 .define('P', rfCoil)
@@ -68,7 +71,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_machine_frame", has(machineFrame))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(BUILDING_BLOCKS, reg.get(ID_MACHINE_PULVERIZER))
+        ShapedRecipeBuilder.shaped(items, BUILDING_BLOCKS, reg.get(ID_MACHINE_PULVERIZER))
                 .define('C', machineFrame)
                 .define('I', ItemTagsCoFH.GEARS_COPPER)
                 .define('P', rfCoil)
@@ -80,7 +83,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_machine_frame", has(machineFrame))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(BUILDING_BLOCKS, reg.get(ID_MACHINE_SMELTER))
+        ShapedRecipeBuilder.shaped(items, BUILDING_BLOCKS, reg.get(ID_MACHINE_SMELTER))
                 .define('C', machineFrame)
                 .define('I', ItemTagsCoFH.GEARS_INVAR)
                 .define('P', rfCoil)
@@ -92,7 +95,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_machine_frame", has(machineFrame))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(BUILDING_BLOCKS, reg.get(ID_MACHINE_INSOLATOR))
+        ShapedRecipeBuilder.shaped(items, BUILDING_BLOCKS, reg.get(ID_MACHINE_INSOLATOR))
                 .define('C', machineFrame)
                 .define('I', ItemTagsCoFH.GEARS_LUMIUM)
                 .define('P', rfCoil)
@@ -104,7 +107,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_machine_frame", has(machineFrame))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(BUILDING_BLOCKS, reg.get(ID_MACHINE_CENTRIFUGE))
+        ShapedRecipeBuilder.shaped(items, BUILDING_BLOCKS, reg.get(ID_MACHINE_CENTRIFUGE))
                 .define('C', machineFrame)
                 .define('I', ItemTagsCoFH.GEARS_CONSTANTAN)
                 .define('P', rfCoil)
@@ -116,7 +119,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_machine_frame", has(machineFrame))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(BUILDING_BLOCKS, reg.get(ID_MACHINE_PRESS))
+        ShapedRecipeBuilder.shaped(items, BUILDING_BLOCKS, reg.get(ID_MACHINE_PRESS))
                 .define('C', machineFrame)
                 .define('I', ItemTagsCoFH.GEARS_CONSTANTAN)
                 .define('P', rfCoil)
@@ -128,7 +131,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_machine_frame", has(machineFrame))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(BUILDING_BLOCKS, reg.get(ID_MACHINE_CRUCIBLE))
+        ShapedRecipeBuilder.shaped(items, BUILDING_BLOCKS, reg.get(ID_MACHINE_CRUCIBLE))
                 .define('C', machineFrame)
                 .define('I', ItemTagsCoFH.GEARS_INVAR)
                 .define('P', rfCoil)
@@ -140,7 +143,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_machine_frame", has(machineFrame))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(BUILDING_BLOCKS, reg.get(ID_MACHINE_CHILLER))
+        ShapedRecipeBuilder.shaped(items, BUILDING_BLOCKS, reg.get(ID_MACHINE_CHILLER))
                 .define('C', machineFrame)
                 .define('I', ItemTagsCoFH.GEARS_INVAR)
                 .define('P', rfCoil)
@@ -152,7 +155,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_machine_frame", has(machineFrame))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(BUILDING_BLOCKS, reg.get(ID_MACHINE_REFINERY))
+        ShapedRecipeBuilder.shaped(items, BUILDING_BLOCKS, reg.get(ID_MACHINE_REFINERY))
                 .define('C', machineFrame)
                 .define('I', ItemTagsCoFH.GEARS_INVAR)
                 .define('P', rfCoil)
@@ -164,7 +167,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_machine_frame", has(machineFrame))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(BUILDING_BLOCKS, reg.get(ID_MACHINE_PYROLYZER))
+        ShapedRecipeBuilder.shaped(items, BUILDING_BLOCKS, reg.get(ID_MACHINE_PYROLYZER))
                 .define('C', machineFrame)
                 .define('I', ItemTagsCoFH.GEARS_CONSTANTAN)
                 .define('P', rfCoil)
@@ -176,7 +179,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_machine_frame", has(machineFrame))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(BUILDING_BLOCKS, reg.get(ID_MACHINE_BREWER))
+        ShapedRecipeBuilder.shaped(items, BUILDING_BLOCKS, reg.get(ID_MACHINE_BREWER))
                 .define('C', machineFrame)
                 .define('I', ItemTagsCoFH.GEARS_CONSTANTAN)
                 .define('P', rfCoil)
@@ -188,7 +191,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_machine_frame", has(machineFrame))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(BUILDING_BLOCKS, reg.get(ID_MACHINE_BOTTLER))
+        ShapedRecipeBuilder.shaped(items, BUILDING_BLOCKS, reg.get(ID_MACHINE_BOTTLER))
                 .define('C', machineFrame)
                 .define('I', ItemTagsCoFH.GEARS_COPPER)
                 .define('P', rfCoil)
@@ -200,7 +203,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_machine_frame", has(machineFrame))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(BUILDING_BLOCKS, reg.get(ID_MACHINE_CRYSTALLIZER))
+        ShapedRecipeBuilder.shaped(items, BUILDING_BLOCKS, reg.get(ID_MACHINE_CRYSTALLIZER))
                 .define('C', machineFrame)
                 .define('I', ItemTagsCoFH.GEARS_CONSTANTAN)
                 .define('P', rfCoil)
@@ -212,7 +215,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_machine_frame", has(machineFrame))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(BUILDING_BLOCKS, reg.get(ID_MACHINE_CRAFTER))
+        ShapedRecipeBuilder.shaped(items, BUILDING_BLOCKS, reg.get(ID_MACHINE_CRAFTER))
                 .define('C', machineFrame)
                 .define('I', ItemTagsCoFH.GEARS_COPPER)
                 .define('P', rfCoil)
@@ -231,7 +234,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
 
         Item rfCoil = reg.get("rf_coil");
 
-        ShapedRecipeBuilder.shaped(BUILDING_BLOCKS, reg.get(ID_DYNAMO_STIRLING))
+        ShapedRecipeBuilder.shaped(items, BUILDING_BLOCKS, reg.get(ID_DYNAMO_STIRLING))
                 .define('C', rfCoil)
                 .define('I', Tags.Items.INGOTS_IRON)
                 .define('G', ItemTagsCoFH.GEARS_IRON)
@@ -243,7 +246,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_rf_coil", has(rfCoil))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(BUILDING_BLOCKS, reg.get(ID_DYNAMO_COMPRESSION))
+        ShapedRecipeBuilder.shaped(items, BUILDING_BLOCKS, reg.get(ID_DYNAMO_COMPRESSION))
                 .define('C', rfCoil)
                 .define('I', Tags.Items.INGOTS_IRON)
                 .define('G', ItemTagsCoFH.GEARS_BRONZE)
@@ -255,7 +258,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_rf_coil", has(rfCoil))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(BUILDING_BLOCKS, reg.get(ID_DYNAMO_MAGMATIC))
+        ShapedRecipeBuilder.shaped(items, BUILDING_BLOCKS, reg.get(ID_DYNAMO_MAGMATIC))
                 .define('C', rfCoil)
                 .define('I', Tags.Items.INGOTS_IRON)
                 .define('G', ItemTagsCoFH.GEARS_INVAR)
@@ -267,7 +270,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_rf_coil", has(rfCoil))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(BUILDING_BLOCKS, reg.get(ID_DYNAMO_NUMISMATIC))
+        ShapedRecipeBuilder.shaped(items, BUILDING_BLOCKS, reg.get(ID_DYNAMO_NUMISMATIC))
                 .define('C', rfCoil)
                 .define('I', Tags.Items.INGOTS_IRON)
                 .define('G', ItemTagsCoFH.GEARS_TIN)
@@ -279,7 +282,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_rf_coil", has(rfCoil))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(BUILDING_BLOCKS, reg.get(ID_DYNAMO_LAPIDARY))
+        ShapedRecipeBuilder.shaped(items, BUILDING_BLOCKS, reg.get(ID_DYNAMO_LAPIDARY))
                 .define('C', rfCoil)
                 .define('I', Tags.Items.INGOTS_IRON)
                 .define('G', ItemTagsCoFH.GEARS_GOLD)
@@ -291,7 +294,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_rf_coil", has(rfCoil))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(BUILDING_BLOCKS, reg.get(ID_DYNAMO_DISENCHANTMENT))
+        ShapedRecipeBuilder.shaped(items, BUILDING_BLOCKS, reg.get(ID_DYNAMO_DISENCHANTMENT))
                 .define('C', rfCoil)
                 .define('I', Tags.Items.INGOTS_IRON)
                 .define('G', ItemTagsCoFH.GEARS_SILVER)
@@ -303,7 +306,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_rf_coil", has(rfCoil))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(BUILDING_BLOCKS, reg.get(ID_DYNAMO_GOURMAND))
+        ShapedRecipeBuilder.shaped(items, BUILDING_BLOCKS, reg.get(ID_DYNAMO_GOURMAND))
                 .define('C', rfCoil)
                 .define('I', Tags.Items.INGOTS_IRON)
                 .define('G', ItemTagsCoFH.GEARS_COPPER)
@@ -320,7 +323,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
 
         var reg = ITEMS;
 
-        ShapedRecipeBuilder.shaped(MISC, reg.get("slot_seal"))
+        ShapedRecipeBuilder.shaped(items, MISC, reg.get("slot_seal"))
                 .define('P', ItemTagsCoFH.PLATES_IRON)
                 .define('i', Tags.Items.NUGGETS_IRON)
                 .pattern("i i")
@@ -329,7 +332,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_iron_plate", has(ItemTagsCoFH.PLATES_IRON))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(MISC, reg.get("press_coin_die"))
+        ShapedRecipeBuilder.shaped(items, MISC, reg.get("press_coin_die"))
                 .define('P', ItemTagsCoFH.PLATES_INVAR)
                 .define('X', Tags.Items.GEMS_EMERALD)
                 .pattern(" P ")
@@ -338,7 +341,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_invar_plate", has(ItemTagsCoFH.PLATES_INVAR))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(MISC, reg.get("press_gear_die"))
+        ShapedRecipeBuilder.shaped(items, MISC, reg.get("press_gear_die"))
                 .define('P', ItemTagsCoFH.PLATES_INVAR)
                 .define('X', ItemTagsCoFH.GEARS_DIAMOND)
                 .pattern(" P ")
@@ -347,7 +350,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_invar_plate", has(ItemTagsCoFH.PLATES_INVAR))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(MISC, reg.get("press_packing_2x2_die"))
+        ShapedRecipeBuilder.shaped(items, MISC, reg.get("press_packing_2x2_die"))
                 .define('C', ItemTagsCoFH.PLATES_CONSTANTAN)
                 .define('I', ItemTagsCoFH.PLATES_INVAR)
                 .define('X', ItemTags.PLANKS)
@@ -357,7 +360,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_invar_plate", has(ItemTagsCoFH.PLATES_INVAR))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(MISC, reg.get("press_packing_3x3_die"))
+        ShapedRecipeBuilder.shaped(items, MISC, reg.get("press_packing_3x3_die"))
                 .define('C', ItemTagsCoFH.PLATES_CONSTANTAN)
                 .define('I', ItemTagsCoFH.PLATES_INVAR)
                 .define('X', ItemTags.PLANKS)
@@ -367,7 +370,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_invar_plate", has(ItemTagsCoFH.PLATES_INVAR))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(MISC, reg.get("press_unpacking_die"))
+        ShapedRecipeBuilder.shaped(items, MISC, reg.get("press_unpacking_die"))
                 .define('C', ItemTagsCoFH.PLATES_CONSTANTAN)
                 .define('I', ItemTagsCoFH.PLATES_INVAR)
                 .define('X', ItemTags.PLANKS)
@@ -377,7 +380,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_invar_plate", has(ItemTagsCoFH.PLATES_INVAR))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(MISC, reg.get("chiller_ball_cast"))
+        ShapedRecipeBuilder.shaped(items, MISC, reg.get("chiller_ball_cast"))
                 .define('P', ItemTagsCoFH.PLATES_BRONZE)
                 .define('X', Items.MAGMA_CREAM)
                 .pattern(" P ")
@@ -386,7 +389,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_bronze_plate", has(ItemTagsCoFH.PLATES_BRONZE))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(MISC, reg.get("chiller_ingot_cast"))
+        ShapedRecipeBuilder.shaped(items, MISC, reg.get("chiller_ingot_cast"))
                 .define('P', ItemTagsCoFH.PLATES_BRONZE)
                 .define('X', Items.NETHER_BRICK)
                 .pattern(" P ")
@@ -395,7 +398,7 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .unlockedBy("has_bronze_plate", has(ItemTagsCoFH.PLATES_BRONZE))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(MISC, reg.get("chiller_rod_cast"))
+        ShapedRecipeBuilder.shaped(items, MISC, reg.get("chiller_rod_cast"))
                 .define('P', ItemTagsCoFH.PLATES_BRONZE)
                 .define('X', Items.BLAZE_ROD)
                 .pattern(" P ")
@@ -403,6 +406,27 @@ public class TExpRecipeProvider extends RecipeProviderCoFH {
                 .pattern(" P ")
                 .unlockedBy("has_bronze_plate", has(ItemTagsCoFH.PLATES_BRONZE))
                 .save(consumer);
+    }
+
+    public static class Runner extends RecipeProvider.Runner {
+
+        public Runner(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
+
+            super(output, registries);
+        }
+
+        @Override
+        protected RecipeProvider createRecipeProvider(HolderLookup.Provider registries, RecipeOutput output) {
+
+            return new TExpRecipeProvider(registries, output);
+        }
+
+        @Override
+        public String getName() {
+
+            return "Thermal Expansion: Recipes";
+        }
+
     }
 
 }

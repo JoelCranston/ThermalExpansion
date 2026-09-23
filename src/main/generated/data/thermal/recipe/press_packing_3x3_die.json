@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "C": {
-      "tag": "c:plates/constantan"
-    },
-    "I": {
-      "tag": "c:plates/invar"
-    },
-    "X": {
-      "tag": "minecraft:planks"
-    }
+    "C": "#c:plates/constantan",
+    "I": "#c:plates/invar",
+    "X": "#minecraft:planks"
   },
   "pattern": [
     " I ",
@@ -18,7 +12,6 @@
     " I "
   ],
   "result": {
-    "count": 1,
     "id": "thermal:press_packing_3x3_die"
   }
 }

@@ -13,7 +13,7 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -79,12 +79,12 @@ public class SawmillRecipeCategory extends ThermalRecipeCategory<RecipeHolder<Sa
 
         for (int i = 0; i < outputs.size(); ++i) {
             outputSlots[i].addItemStack(outputs.get(i))
-                    .addTooltipCallback(defaultOutputTooltip(recipe.value().getOutputItemChances().get(i)));
+                    .addRichTooltipCallback(defaultOutputTooltip(recipe.value().getOutputItemChances().get(i)));
         }
     }
 
     @Override
-    public void draw(RecipeHolder<SawmillRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(RecipeHolder<SawmillRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
 
         super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
 

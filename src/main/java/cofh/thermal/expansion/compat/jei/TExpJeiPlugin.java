@@ -11,16 +11,15 @@ import cofh.thermal.expansion.client.gui.machine.*;
 import cofh.thermal.expansion.compat.jei.dynamo.*;
 import cofh.thermal.expansion.compat.jei.machine.*;
 import cofh.thermal.expansion.compat.jei.plugins.PotionFluidRecipeManagerPlugin;
+import cofh.thermal.lib.util.ThermalRecipeManagers;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.registration.*;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.RecipeMap;
 
 import java.util.List;
 
@@ -37,47 +36,44 @@ public class TExpJeiPlugin implements IModPlugin {
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
 
-        RecipeManager recipeManager = getRecipeManager();
-        if (recipeManager == null) {
-            // TODO: Log an error.
-            return;
-        }
-        registration.addRecipes(FURNACE_TYPE, recipeManager.getAllRecipesFor(FURNACE_RECIPE.get()));
+        RecipeMap recipeMap = ThermalRecipeManagers.instance().getClientRecipeMap();
+
+        registration.addRecipes(FURNACE_TYPE, List.copyOf(recipeMap.byType(FURNACE_RECIPE.get())));
         registration.addRecipes(FURNACE_TYPE, FurnaceRecipeManager.instance().getConvertedRecipes());
-        registration.addRecipes(SAWMILL_TYPE, recipeManager.getAllRecipesFor(SAWMILL_RECIPE.get()));
+        registration.addRecipes(SAWMILL_TYPE, List.copyOf(recipeMap.byType(SAWMILL_RECIPE.get())));
         registration.addRecipes(SAWMILL_TYPE, SawmillRecipeManager.instance().getConvertedRecipes());
-        registration.addRecipes(PULVERIZER_TYPE, recipeManager.getAllRecipesFor(PULVERIZER_RECIPE.get()));
-        registration.addRecipes(PULVERIZER_TYPE, (List<RecipeHolder<PulverizerRecipe>>) (List<?>) recipeManager.getAllRecipesFor(PULVERIZER_RECYCLE_RECIPE.get()));
+        registration.addRecipes(PULVERIZER_TYPE, List.copyOf(recipeMap.byType(PULVERIZER_RECIPE.get())));
+        registration.addRecipes(PULVERIZER_TYPE, (List<RecipeHolder<PulverizerRecipe>>) (List<?>) List.copyOf(recipeMap.byType(PULVERIZER_RECYCLE_RECIPE.get())));
         registration.addRecipes(PULVERIZER_TYPE, PulverizerRecipeManager.instance().getConvertedRecipes());
-        registration.addRecipes(SMELTER_TYPE, recipeManager.getAllRecipesFor(SMELTER_RECIPE.get()));
-        registration.addRecipes(SMELTER_TYPE, (List<RecipeHolder<SmelterRecipe>>) (List<?>) recipeManager.getAllRecipesFor(SMELTER_RECYCLE_RECIPE.get()));
+        registration.addRecipes(SMELTER_TYPE, List.copyOf(recipeMap.byType(SMELTER_RECIPE.get())));
+        registration.addRecipes(SMELTER_TYPE, (List<RecipeHolder<SmelterRecipe>>) (List<?>) List.copyOf(recipeMap.byType(SMELTER_RECYCLE_RECIPE.get())));
         registration.addRecipes(SMELTER_TYPE, SmelterRecipeManager.instance().getConvertedRecipes());
-        registration.addRecipes(INSOLATOR_TYPE, recipeManager.getAllRecipesFor(INSOLATOR_RECIPE.get()));
-        registration.addRecipes(CENTRIFUGE_TYPE, recipeManager.getAllRecipesFor(CENTRIFUGE_RECIPE.get()));
-        registration.addRecipes(PRESS_TYPE, recipeManager.getAllRecipesFor(PRESS_RECIPE.get()));
-        registration.addRecipes(CRUCIBLE_TYPE, recipeManager.getAllRecipesFor(CRUCIBLE_RECIPE.get()));
-        registration.addRecipes(CHILLER_TYPE, recipeManager.getAllRecipesFor(CHILLER_RECIPE.get()));
-        registration.addRecipes(REFINERY_TYPE, recipeManager.getAllRecipesFor(REFINERY_RECIPE.get()));
-        registration.addRecipes(PYROLYZER_TYPE, recipeManager.getAllRecipesFor(PYROLYZER_RECIPE.get()));
-        registration.addRecipes(BOTTLER_TYPE, recipeManager.getAllRecipesFor(BOTTLER_RECIPE.get()));
+        registration.addRecipes(INSOLATOR_TYPE, List.copyOf(recipeMap.byType(INSOLATOR_RECIPE.get())));
+        registration.addRecipes(CENTRIFUGE_TYPE, List.copyOf(recipeMap.byType(CENTRIFUGE_RECIPE.get())));
+        registration.addRecipes(PRESS_TYPE, List.copyOf(recipeMap.byType(PRESS_RECIPE.get())));
+        registration.addRecipes(CRUCIBLE_TYPE, List.copyOf(recipeMap.byType(CRUCIBLE_RECIPE.get())));
+        registration.addRecipes(CHILLER_TYPE, List.copyOf(recipeMap.byType(CHILLER_RECIPE.get())));
+        registration.addRecipes(REFINERY_TYPE, List.copyOf(recipeMap.byType(REFINERY_RECIPE.get())));
+        registration.addRecipes(PYROLYZER_TYPE, List.copyOf(recipeMap.byType(PYROLYZER_RECIPE.get())));
+        registration.addRecipes(BOTTLER_TYPE, List.copyOf(recipeMap.byType(BOTTLER_RECIPE.get())));
         registration.addRecipes(BOTTLER_TYPE, BottlerRecipeManager.instance().getConvertedRecipes());
-        registration.addRecipes(BREWER_TYPE, recipeManager.getAllRecipesFor(BREWER_RECIPE.get()));
+        registration.addRecipes(BREWER_TYPE, List.copyOf(recipeMap.byType(BREWER_RECIPE.get())));
         registration.addRecipes(BREWER_TYPE, BrewerRecipeManager.instance().getConvertedRecipes());
-        registration.addRecipes(CRYSTALLIZER_TYPE, recipeManager.getAllRecipesFor(CRYSTALLIZER_RECIPE.get()));
+        registration.addRecipes(CRYSTALLIZER_TYPE, List.copyOf(recipeMap.byType(CRYSTALLIZER_RECIPE.get())));
 
-        registration.addRecipes(PULVERIZER_CATALYST_TYPE, recipeManager.getAllRecipesFor(PULVERIZER_CATALYST.get()));
-        registration.addRecipes(SMELTER_CATALYST_TYPE, recipeManager.getAllRecipesFor(SMELTER_CATALYST.get()));
-        registration.addRecipes(INSOLATOR_CATALYST_TYPE, recipeManager.getAllRecipesFor(INSOLATOR_CATALYST.get()));
+        registration.addRecipes(PULVERIZER_CATALYST_TYPE, List.copyOf(recipeMap.byType(PULVERIZER_CATALYST.get())));
+        registration.addRecipes(SMELTER_CATALYST_TYPE, List.copyOf(recipeMap.byType(SMELTER_CATALYST.get())));
+        registration.addRecipes(INSOLATOR_CATALYST_TYPE, List.copyOf(recipeMap.byType(INSOLATOR_CATALYST.get())));
 
-        registration.addRecipes(STIRLING_FUEL_TYPE, recipeManager.getAllRecipesFor(STIRLING_FUEL.get()));
+        registration.addRecipes(STIRLING_FUEL_TYPE, List.copyOf(recipeMap.byType(STIRLING_FUEL.get())));
         registration.addRecipes(STIRLING_FUEL_TYPE, StirlingFuelManager.instance().getConvertedFuels());
-        registration.addRecipes(COMPRESSION_FUEL_TYPE, recipeManager.getAllRecipesFor(COMPRESSION_FUEL.get()));
-        registration.addRecipes(MAGMATIC_FUEL_TYPE, recipeManager.getAllRecipesFor(MAGMATIC_FUEL.get()));
-        registration.addRecipes(NUMISMATIC_FUEL_TYPE, recipeManager.getAllRecipesFor(NUMISMATIC_FUEL.get()));
-        registration.addRecipes(LAPIDARY_FUEL_TYPE, recipeManager.getAllRecipesFor(LAPIDARY_FUEL.get()));
-        registration.addRecipes(DISENCHANTMENT_FUEL_TYPE, recipeManager.getAllRecipesFor(DISENCHANTMENT_FUEL.get()));
+        registration.addRecipes(COMPRESSION_FUEL_TYPE, List.copyOf(recipeMap.byType(COMPRESSION_FUEL.get())));
+        registration.addRecipes(MAGMATIC_FUEL_TYPE, List.copyOf(recipeMap.byType(MAGMATIC_FUEL.get())));
+        registration.addRecipes(NUMISMATIC_FUEL_TYPE, List.copyOf(recipeMap.byType(NUMISMATIC_FUEL.get())));
+        registration.addRecipes(LAPIDARY_FUEL_TYPE, List.copyOf(recipeMap.byType(LAPIDARY_FUEL.get())));
+        registration.addRecipes(DISENCHANTMENT_FUEL_TYPE, List.copyOf(recipeMap.byType(DISENCHANTMENT_FUEL.get())));
         registration.addRecipes(DISENCHANTMENT_FUEL_TYPE, DisenchantmentFuelManager.instance().getConvertedFuels());
-        registration.addRecipes(GOURMAND_FUEL_TYPE, recipeManager.getAllRecipesFor(GOURMAND_FUEL.get()));
+        registration.addRecipes(GOURMAND_FUEL_TYPE, List.copyOf(recipeMap.byType(GOURMAND_FUEL.get())));
         registration.addRecipes(GOURMAND_FUEL_TYPE, GourmandFuelManager.instance().getConvertedFuels());
     }
 
@@ -191,16 +187,4 @@ public class TExpJeiPlugin implements IModPlugin {
 
         return Identifier.fromNamespaceAndPath(ID_THERMAL, "expansion");
     }
-
-    // region HELPERS
-    private RecipeManager getRecipeManager() {
-
-        RecipeManager recipeManager = null;
-        ClientLevel level = Minecraft.getInstance().level;
-        if (level != null) {
-            recipeManager = level.getRecipeManager();
-        }
-        return recipeManager;
-    }
-    // endregion
 }

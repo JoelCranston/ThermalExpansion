@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "P": {
-      "tag": "c:plates/bronze"
-    },
-    "X": {
-      "item": "minecraft:blaze_rod"
-    }
+    "P": "#c:plates/bronze",
+    "X": "minecraft:blaze_rod"
   },
   "pattern": [
     " P ",
@@ -15,7 +11,6 @@
     " P "
   ],
   "result": {
-    "count": 1,
     "id": "thermal:chiller_rod_cast"
   }
 }

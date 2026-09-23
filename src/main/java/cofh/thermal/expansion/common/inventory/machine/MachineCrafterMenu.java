@@ -8,8 +8,10 @@ import cofh.lib.common.inventory.SlotRemoveOnly;
 import cofh.lib.common.inventory.wrapper.InvWrapperCoFH;
 import cofh.lib.util.Utils;
 import cofh.thermal.expansion.common.block.entity.machine.MachineCrafterBlockEntity;
+import cofh.thermal.lib.util.ThermalRecipeManagers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
@@ -122,9 +124,9 @@ public class MachineCrafterMenu extends BlockEntityCoFHMenu {
             ServerPlayer playerMP = (ServerPlayer) player;
             ItemStack stack = ItemStack.EMPTY;
             CraftingInput craftingInput = craftMatrix.asCraftInput();
-            Optional<RecipeHolder<CraftingRecipe>> possibleRecipe = level.getRecipeManager().getRecipeFor(RecipeType.CRAFTING, craftingInput, level);
+            Optional<RecipeHolder<CraftingRecipe>> possibleRecipe = getCraftingRecipe(level, craftingInput);
             if (possibleRecipe.isPresent()) {
-                stack = possibleRecipe.get().value().assemble(craftingInput, level.registryAccess());
+                stack = possibleRecipe.get().value().assemble(craftingInput);
                 craftResult.setRecipeUsed(craftResult.getRecipeUsed());
             }
             tile.markRecipeChanges();
@@ -142,13 +144,21 @@ public class MachineCrafterMenu extends BlockEntityCoFHMenu {
         ItemStack stack = ItemStack.EMPTY;
         if (level != null) {
             CraftingInput craftingInput = craftMatrix.asCraftInput();
-            Optional<RecipeHolder<CraftingRecipe>> possibleRecipe = level.getRecipeManager().getRecipeFor(RecipeType.CRAFTING, craftingInput, level);
+            Optional<RecipeHolder<CraftingRecipe>> possibleRecipe = getCraftingRecipe(level, craftingInput);
             if (possibleRecipe.isPresent()) {
                 craftResult.setRecipeUsed(possibleRecipe.get());
-                stack = possibleRecipe.get().value().assemble(craftingInput, level.registryAccess());
+                stack = possibleRecipe.get().value().assemble(craftingInput);
             }
         }
         craftResult.setItem(0, stack);
+    }
+
+    protected Optional<RecipeHolder<CraftingRecipe>> getCraftingRecipe(Level level, CraftingInput craftingInput) {
+
+        if (level instanceof ServerLevel serverLevel) {
+            return serverLevel.recipeAccess().getRecipeFor(RecipeType.CRAFTING, craftingInput, level);
+        }
+        return ThermalRecipeManagers.instance().getClientRecipeMap().getRecipesFor(RecipeType.CRAFTING, craftingInput, level).findFirst();
     }
 
 }
