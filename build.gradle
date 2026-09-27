@@ -135,6 +135,9 @@ dependencies {
     compileOnly("mezz.jei:jei-${mc_version}-common-api:${jei_version}")
     compileOnly("mezz.jei:jei-${mc_version}-neoforge-api:${jei_version}")
     localRuntime("mezz.jei:jei-${mc_version}-neoforge:${jei_version}")
+    if (project.hasProperty('withDynamics')) {
+        localRuntime("com.teamcofh:thermal_dynamics:${mc_version}-+")
+    }
 }
 
 def commonManifest = {

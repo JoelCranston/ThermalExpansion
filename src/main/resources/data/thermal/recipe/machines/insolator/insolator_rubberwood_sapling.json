@@ -14,5 +14,11 @@
     }
   ],
   "energy_mod": 3.0,
-  "water_mod": 3.0
+  "water_mod": 3.0,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:registered",
+      "value": "thermal:rubberwood_sapling"
+    }
+  ]
 }

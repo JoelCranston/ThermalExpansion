@@ -23,4 +23,13 @@ includeBuild('../ThermalCore') {
     }
 }
 
+// Opt-in: -PwithDynamics loads ThermalDynamics in the dev runs.
+if (providers.gradleProperty('withDynamics').isPresent()) {
+    includeBuild('../ThermalDynamics') {
+        dependencySubstitution {
+            substitute module('com.teamcofh:thermal_dynamics') using project(':')
+        }
+    }
+}
+
 rootProject.name = 'ThermalExpansion'
